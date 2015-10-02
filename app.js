@@ -4,7 +4,16 @@ var app = express();
 var hostname = "http://127.0.0.1"; //Change this to your IP address to have images work
 
 app.get("/matches", function(req, res) {
-
+    res.send(JSON.stringify([
+        {
+            name: "Captain hammer",
+            phone: "2502502502"
+        },
+        {
+            name: "Swoggoty Swiggity",
+            phone: "6047897897"
+        }
+    ]))
 });
 
 app.get("/suggestions", function(req, res) {
