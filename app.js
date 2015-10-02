@@ -4,7 +4,7 @@ var app = express();
 app.use(bodyParser.json());
 
 // Change this to your IP address, otherwise the "photo" profile will be invalid
-var hostname = "http://127.0.0.1";
+var hostname = "http://127.0.0.1:8000";
 
 app.get("/matches", function(req, res) {
     res.json([
