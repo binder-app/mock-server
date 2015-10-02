@@ -1,6 +1,6 @@
 # Binder Mock Server
 
-For when you want to test the Android app against something, but the server isn't done yet / is offline / whatever
+For when you want to test the Android app against something, but the server [isn't done yet|is offline|whatever]
 
 ## Usage
 
