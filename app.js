@@ -2,6 +2,7 @@ var express = require("express")
 var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
+app.use("/img", express.static("img"));
 
 // Change this to your IP address, otherwise the "photo" profile will be invalid
 var hostname = "http://127.0.0.1:8000";
@@ -9,7 +10,7 @@ var hostname = "http://127.0.0.1:8000";
 app.get("/matches", function(req, res) {
     res.json([
         {
-            name: "Captain hammer",
+            name: "Michael Scott",
             phone: "2502502502"
         },
         {
@@ -23,7 +24,7 @@ app.get("/suggestions", function(req, res) {
     res.json([
         {
             id: "1ab9ed",
-            name: "Michael Scott",
+            name: "Captain hammer",
             program: "Business",
             year: 3,
             photo: hostname + "/img/1ab9ed.jpg"
@@ -37,37 +38,56 @@ app.get("/suggestions", function(req, res) {
     ]);
 });
 
-app.get("/profile/*", function(req, res) {
+app.get("/profile/:profile", function(req, res) {
+    if (req.params.profile !== '1ab9ed') {
+        res.status(404).json({
+            message: "No profile found"
+        });
+        return;
+    }
+
     res.json({
         id: "1ab9ed",
-        name: "Michael Scott",
+        name: "Captain hammer",
         program: "Business",
         year: 3,
         photo: hostname + "/img/1ab9ed.jpg"
     });
 });
 
-app.put("/profile/*", function(req, res) {
-    res.send("Profile set successfully");
+app.put("/profile/:profile", function(req, res) {
+    res.json({
+        message: "Profile set successfully"
+    });
 });
 
 app.post("/likes", function(req, res) {
     var likedProfile = req.body || {};
     console.log(likedProfile);
-    if (likedProfile.hasOwnProperty("id")) {
-        res.send("Received liked profile");
-    } else {
-        res.status(400).send("Liked profile missing required property id");
+    if (!likedProfile.hasOwnProperty("id")) {
+        res.status(400).json({
+            message: "Liked profile missing required property id"
+        });
+        return;
     }
+
+    res.json({
+        message: "Received liked profile"
+    });
 });
 
 app.post("/dislikes", function(req, res) {
     var dislikedProfile = req.body || {};
-    if (dislikedProfile.hasOwnProperty("id")) {
-        res.send("Received disliked profile");
-    } else {
-        res.status(400).send("Disliked profile missing required property id");
+    if (!dislikedProfile.hasOwnProperty("id")) {
+        res.status(400).json({
+            message: "Disliked profile missing required property id"
+        });
+        return;
     }
+
+    res.json({
+        message: "Received disliked profile"
+    });
 });
 
 app.listen(8000);
